@@ -1,9 +1,11 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eventapp/firebase/firebase_manager.dart';
+import 'package:eventapp/provider/user_provider.dart';
 import 'package:eventapp/screens/home_screen.dart';
 import 'package:eventapp/screens/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login';
@@ -19,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -85,8 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               backgroundColor: Colors.transparent),
                         );
                       },
-                      () {
+                      () async{
                         Navigator.pop(context);
+                        await userProvider.initUser();
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           HomeScreen.routeName,
