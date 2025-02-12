@@ -73,49 +73,46 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      HomeScreen.routeName,
+                  
+                    FirebaseManager.login(
+                      emailController.text,
+                      passwordController.text,
+                      () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const AlertDialog(
+                              title: Center(child: CircularProgressIndicator()),
+                              backgroundColor: Colors.transparent),
+                        );
+                      },
+                      () {
+                        Navigator.pop(context);
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          HomeScreen.routeName,
                           (route) => false,
+                        );
+                      },
+                      (massage) {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Something Wrong'),
+                            content: Text(massage),
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('ok'),
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     );
-                    // FirebaseManager.login(
-                    //   emailController.text,
-                    //   passwordController.text,
-                    //   () {
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (context) => const AlertDialog(
-                    //           title: Center(child: CircularProgressIndicator()),
-                    //           backgroundColor: Colors.transparent),
-                    //     );
-                    //   },
-                    //   () {
-                    //     Navigator.pop(context);
-                    //     Navigator.pushNamedAndRemoveUntil(
-                    //       context,
-                    //       HomeScreen.routeName,
-                    //       (route) => false,
-                    //     );
-                    //   },
-                    //   (massage) {
-                    //     Navigator.pop(context);
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (context) => AlertDialog(
-                    //         title: const Text('Something Wrong'),
-                    //         content: Text(massage),
-                    //         actions: [
-                    //           ElevatedButton(
-                    //             onPressed: () {
-                    //               Navigator.pop(context);
-                    //             },
-                    //             child: const Text('ok'),
-                    //           )
-                    //         ],
-                    //       ),
-                    //     );
-                    //   },
-                    // );
                   },
                   child: const Text(
                     'login',

@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.location_on_outlined), label: 'Map'),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border_outlined), label: 'Love'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_3_outlined), label: 'Profil'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_3_outlined), label: 'Profile'),
         ],
       ),
       body: tabs[selectedIndex],
@@ -50,9 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> tabs = [
-    const HomeTab(),
+     HomeTab(),
     const MapTap(),
-    const LoveTap(),
+     LoveTap(),
     const ProfileTab(),
   ];
 }

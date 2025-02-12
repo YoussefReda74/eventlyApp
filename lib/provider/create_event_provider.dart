@@ -18,6 +18,11 @@ class CreateEventProvider extends ChangeNotifier{
     String get imageName=>eventsCategories[selectedEventIndex];
     String get selectEvent=>eventsCategories[selectedEventIndex];
 
+
+  void setSelectedCategory(String category) {
+    selectedEventIndex = eventsCategories.indexOf(category);
+    notifyListeners();
+  }
     chosenSelectedDate(DateTime date){
       selectedDate=date;
       notifyListeners();

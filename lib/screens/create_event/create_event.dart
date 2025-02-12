@@ -1,16 +1,15 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:eventapp/firebase/firebase_manager.dart';
 import 'package:eventapp/models/task_model.dart';
 import 'package:eventapp/provider/create_event_provider.dart';
 import 'package:eventapp/screens/tabs/category/event_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CreateEvent extends StatelessWidget {
   static const String routeName = 'create_event';
-  CreateEvent({super.key});
+  CreateEvent({this.taskModel,super.key});
+  final TaskModel? taskModel;
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
 
@@ -83,7 +82,7 @@ class CreateEvent extends StatelessWidget {
                     ],
                   ),
                   TextFormField(
-                    controller: titleController,
+                    controller:   titleController,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.edit_note),
                       labelText: 'Event Title',
@@ -160,9 +159,11 @@ class CreateEvent extends StatelessWidget {
                           description: descriptionController.text,
                           category: provider.imageName,
                         );
-                        FirebaseManager.addEvent(task).then((value) {
-                          Navigator.pop(context);
-                        },);
+                        FirebaseManager.addEvent(task).then(
+                          (value) {
+                            Navigator.pop(context);
+                          },
+                        );
                         // FirebaseManager.addEvent(task).then(
                         //   (value) => Navigator.pop(context),
                         // );

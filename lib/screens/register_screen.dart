@@ -144,9 +144,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         FirebaseManager.createAccount(
+                          nameController.text,
                           emailController.text,
                           passwordController.text,
-                          nameController.text,
                           () {
                             showDialog(
                               context: context,

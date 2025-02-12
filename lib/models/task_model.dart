@@ -7,6 +7,7 @@ class TaskModel {
   String category;
   bool isDone;
 
+
   TaskModel({
     this.id='',
     required this.title,
@@ -15,6 +16,7 @@ class TaskModel {
     required this.description,
     required this.category,
      this.isDone=false,
+
   });
   TaskModel.fromJson(Map<String,dynamic>json)
       :this(

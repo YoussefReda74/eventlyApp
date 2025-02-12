@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eventapp/firebase_options.dart';
+import 'package:eventapp/models/task_model.dart';
 import 'package:eventapp/provider/theme_provider.dart';
+import 'package:eventapp/provider/user_provider.dart';
 import 'package:eventapp/screens/create_event/create_event.dart';
+import 'package:eventapp/screens/eventDetails_screen.dart';
 import 'package:eventapp/screens/home_screen.dart';
 import 'package:eventapp/screens/letsgo_screen.dart';
 import 'package:eventapp/screens/login_screen.dart';
@@ -22,8 +25,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => MyProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => MyProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
       child: EasyLocalization(
         supportedLocales: const [
           Locale('en'),
@@ -43,17 +49,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MyProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     BaseTheme theme = LightTheme();
-    BaseTheme darktheme = DarkTheme();
+    BaseTheme darkTheme = DarkTheme();
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: theme.themData,
-      darkTheme: darktheme.themData,
+      darkTheme: darkTheme.themData,
       themeMode: provider.thememode,
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.routeName,
+      initialRoute: userProvider.firebaseUser != null
+          ? HomeScreen.routeName
+          : SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         LetsgoScreen.routeName: (context) => const LetsgoScreen(),
@@ -62,6 +71,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (context) => const RegisterScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
         CreateEvent.routeName: (context) => CreateEvent(),
+        EventDetailsScreen.routeName: (context) => const EventDetailsScreen(),
       },
     );
   }
